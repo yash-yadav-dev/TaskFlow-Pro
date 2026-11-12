@@ -1,0 +1,18 @@
+# Java compiled files
+*.class
+*.jar
+
+# Build directories
+target/
+out/
+
+# Local task data
+data/*.csv
+
+# IDE files
+.vscode/
+.idea/
+
+# Operating system files
+.DS_Store
+Thumbs.db

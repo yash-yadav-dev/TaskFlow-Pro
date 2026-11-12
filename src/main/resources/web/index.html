@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TaskFlow — Make room for your best work</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <a class="brand" href="#"><span class="brand-mark">✳</span><span>taskflow<span class="brand-pro">PRO</span></span></a>
+    <div class="workspace-label">WORKSPACE</div>
+    <nav class="nav">
+      <button class="nav-item active" data-view="overview"><span>◫</span> Overview</button>
+      <button class="nav-item" data-view="tasks"><span>☷</span> All tasks <b id="navTaskCount">0</b></button>
+      <button class="nav-item" data-view="board"><span>▦</span> Board</button>
+      <button class="nav-item" data-view="calendar"><span>▦</span> Calendar</button>
+      <button class="nav-item" data-view="analytics"><span>◔</span> Analytics</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="sidebar-tip"><div class="tip-icon">✦</div><strong>Small steps add up.</strong><p>Keep showing up. Your progress is built one task at a time.</p></div>
+      <button id="themeBtn" class="theme-toggle"><span>◐</span> Switch appearance</button>
+      <div class="profile"><div class="avatar">Y</div><div><strong>My Workspace</strong><small>Personal account</small></div><span class="dots">•••</span></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="hero-kicker"><span class="live-dot"></span> YOUR PERSONAL COMMAND CENTER</div>
+        <h1>Make room for<br><em>your best work.</em></h1>
+        <p>Bring clarity to the chaos. Plan your day, focus on what matters, and turn your goals into momentum.</p>
+        <div class="hero-actions"><button class="btn btn-light" id="heroAdd">＋ Create a task</button><button class="btn btn-outline" data-jump="board">Explore board <span>↗</span></button></div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="hero-glass"><div class="glass-top"><span>FOCUS MODE</span><span class="glass-dot"></span></div><div class="glass-number" id="heroPercent">0%</div><div class="glass-caption">of your tasks completed</div><div class="glass-progress"><span id="heroProgress"></span></div><div class="glass-bottom"><span>✦ Keep your momentum</span><span>↗</span></div></div>
+        <div class="float-card float-one"><span class="float-icon purple">✓</span><div><strong>One step closer</strong><small>Progress looks good</small></div></div>
+        <div class="float-card float-two"><span class="float-icon mint">✧</span><div><strong>Stay in flow</strong><small>Make today count</small></div></div>
+      </div>
+      <div class="hero-spark spark-a">✳</div><div class="hero-spark spark-b">✦</div>
+    </section>
+
+    <div class="welcome-row"><div><div class="section-kicker" id="dateLabel">YOUR OVERVIEW</div><h2 id="pageTitle">Good things start with a plan.</h2><p id="pageSubtitle">Here's what's happening in your workspace today.</p></div><div class="server-pill"><span class="live-dot"></span> Java backend connected</div></div>
+
+    <section class="stats-grid">
+      <article class="stat-card"><div class="stat-top"><span>All tasks</span><span class="stat-icon violet">☷</span></div><strong id="total">0</strong><small><span class="trend">↗</span> Across your workspace</small></article>
+      <article class="stat-card"><div class="stat-top"><span>Completed</span><span class="stat-icon green">✓</span></div><strong id="done">0</strong><small>Tasks you've finished</small></article>
+      <article class="stat-card"><div class="stat-top"><span>In progress</span><span class="stat-icon blue">◷</span></div><strong id="progress">0</strong><small>Currently moving forward</small></article>
+      <article class="stat-card"><div class="stat-top"><span>Overdue</span><span class="stat-icon orange">!</span></div><strong id="overdue">0</strong><small>Need a little attention</small></article>
+    </section>
+
+    <section class="content-grid" id="overviewPanels">
+      <div class="panel task-panel">
+        <div class="panel-heading"><div><div class="section-kicker">YOUR PRIORITIES</div><h3>Tasks that matter</h3></div><button class="text-button" data-jump="tasks">View all <span>→</span></button></div>
+        <div class="toolbar"><div class="searchbox"><span>⌕</span><input id="searchInput" placeholder="Search tasks..." aria-label="Search tasks"></div><select id="statusFilter" aria-label="Filter status"><option value="ALL">All statuses</option><option value="TODO">To do</option><option value="IN_PROGRESS">In progress</option><option value="DONE">Completed</option></select><select id="sortSelect" aria-label="Sort tasks"><option value="due">Due date</option><option value="priority">Priority</option><option value="newest">Recently added</option><option value="az">A to Z</option></select></div>
+        <div id="taskList" class="task-list"></div>
+      </div>
+      <div class="panel side-panel">
+        <div class="panel-heading"><div><div class="section-kicker">AT A GLANCE</div><h3>Weekly progress</h3></div><span class="round-icon">↗</span></div>
+        <div class="weekly-ring" id="weeklyRing"><div><strong id="ringPercent">0%</strong><small>completion</small></div></div>
+        <div class="progress-legend"><div><span class="legend-dot done-dot"></span>Completed <strong id="legendDone">0</strong></div><div><span class="legend-dot todo-dot"></span>Remaining <strong id="legendTodo">0</strong></div></div>
+        <div class="side-divider"></div><div class="panel-heading compact"><div><div class="section-kicker">COMING UP</div><h3>Next deadlines</h3></div></div><div id="upcomingList" class="upcoming-list"></div>
+      </div>
+    </section>
+
+    <section class="panel full-panel view-panel" id="tasksView" hidden>
+      <div class="panel-heading"><div><div class="section-kicker">YOUR WORK, YOUR WAY</div><h3>All tasks</h3></div><button class="btn btn-primary" id="addTaskBtn">＋ New task</button></div>
+      <div class="toolbar"><div class="searchbox"><span>⌕</span><input id="allSearch" placeholder="Search by task name or description..."></div><select id="categoryFilter"><option value="ALL">All categories</option><option>Personal</option><option>Academic</option><option>Work</option><option>Projects</option><option>Other</option></select><select id="priorityFilter"><option value="ALL">All priorities</option><option value="URGENT">Urgent</option><option value="HIGH">High</option><option value="MEDIUM">Medium</option><option value="LOW">Low</option></select></div>
+      <div id="allTaskList" class="task-list"></div>
+    </section>
+
+    <section class="view-panel" id="boardView" hidden>
+      <div class="board-intro"><div><div class="section-kicker">VISUAL WORKFLOW</div><h3>Move work forward.</h3><p>Drag tasks between stages or use the status menu on each card.</p></div></div>
+      <div class="board-grid"><div class="board-column"><div class="column-head"><span class="column-dot todo-bg"></span> To do <b id="todoCount">0</b></div><div class="board-cards" id="todoColumn" data-status="TODO"></div></div><div class="board-column"><div class="column-head"><span class="column-dot progress-bg"></span> In progress <b id="progressCount">0</b></div><div class="board-cards" id="progressColumn" data-status="IN_PROGRESS"></div></div><div class="board-column"><div class="column-head"><span class="column-dot done-bg"></span> Completed <b id="doneCount">0</b></div><div class="board-cards" id="doneColumn" data-status="DONE"></div></div></div>
+    </section>
+
+    <section class="panel full-panel view-panel" id="calendarView" hidden><div class="panel-heading"><div><div class="section-kicker">PLAN AHEAD</div><h3>Your calendar</h3></div><div class="calendar-controls"><button class="icon-button" id="prevMonth">‹</button><strong id="monthLabel"></strong><button class="icon-button" id="nextMonth">›</button></div></div><div class="calendar-grid" id="calendarGrid"></div><div class="calendar-legend"><span><i class="todo-bg"></i> To do</span><span><i class="progress-bg"></i> In progress</span><span><i class="done-bg"></i> Completed</span></div></section>
+
+    <section class="view-panel" id="analyticsView" hidden><div class="analytics-grid"><div class="panel analytics-main"><div class="section-kicker">YOUR MOMENTUM</div><h3>Progress at a glance</h3><div class="big-metric" id="analyticsPercent">0%</div><p class="muted">of all tasks completed</p><div class="wide-progress"><span id="analyticsBar"></span></div><div class="analytics-breakdown" id="analyticsBreakdown"></div></div><div class="panel category-panel"><div class="section-kicker">WHERE YOU SPEND TIME</div><h3>Tasks by category</h3><div id="categoryBreakdown"></div></div></div></section>
+
+    <footer><span>✳ taskflow</span><span>Designed to help you do your best work.</span><span>JAVA POWERED</span></footer>
+  </main>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-head"><div><div class="section-kicker">MAKE IT HAPPEN</div><h3 id="modalTitle">Create a task</h3></div><button class="icon-button" id="closeModal">×</button></div>
+    <form id="taskForm"><input type="hidden" id="taskId">
+      <label class="field full">Task name<input id="title" maxlength="100" placeholder="What needs to get done?" required></label>
+      <label class="field full">Description<textarea id="description" rows="3" placeholder="Add context, notes or next steps..."></textarea></label>
+      <label class="field">Category<select id="category"><option>Personal</option><option>Academic</option><option>Work</option><option>Projects</option><option>Other</option></select></label>
+      <label class="field">Priority<select id="priority"><option value="LOW">Low</option><option value="MEDIUM" selected>Medium</option><option value="HIGH">High</option><option value="URGENT">Urgent</option></select></label>
+      <label class="field">Due date<input type="date" id="dueDate"></label>
+      <label class="field">Status<select id="status"><option value="TODO">To do</option><option value="IN_PROGRESS">In progress</option><option value="DONE">Completed</option></select></label>
+      <p id="formMessage" class="form-message"></p><div class="modal-actions"><button type="button" class="btn btn-quiet" id="cancelModal">Cancel</button><button class="btn btn-primary" type="submit" id="saveBtn">Create task <span>→</span></button></div>
+    </form>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<input type="file" id="importFile" accept="application/json,.json" hidden>
+<script src="app.js"></script>
+</body></html>
